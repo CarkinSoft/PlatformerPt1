@@ -11,11 +11,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text timeText;
 
     [Header("Level Time")]
-    [SerializeField] private float startTimeSeconds = 200f;
+    [SerializeField] private float startTimeSeconds = 100f;
 
     private int points;
     private int coins;
     private float timeLeft;
+    private bool failedLogged;
 
     private void Awake()
     {
@@ -31,9 +32,14 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        // Requirement: must count down starting immediately
         timeLeft -= Time.deltaTime;
         if (timeLeft < 0) timeLeft = 0;
+
+        if (timeLeft <= 0f && !failedLogged)
+        {
+            failedLogged = true;
+            Debug.Log("MAMA MIA! YOU'RE OUT OF TIME!!!");
+        }
 
         RefreshTime();
     }
@@ -41,9 +47,7 @@ public class UIManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
-        // optional: also add points
         points += amount * 100;
-
         RefreshUI();
     }
 
@@ -63,5 +67,6 @@ public class UIManager : MonoBehaviour
     private void RefreshTime()
     {
         if (timeText) timeText.text = $"TIME\n{Mathf.CeilToInt(timeLeft):000}";
+        if (timeLeft <= 0) timeText.text = "MAMA MIA! YOU'RE OUT OF TIME!!!";
     }
 }

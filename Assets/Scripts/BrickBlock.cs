@@ -8,6 +8,23 @@ public class BrickBlock : MonoBehaviour, IClickable
 
     public void HandleClick(RaycastHit hit)
     {
+        Break();
+    }
+
+    public void Break()
+    {
+        if (UIManager.Instance != null)
+            UIManager.Instance.AddPoints(100);
+
+        if (breakEffectPrefab != null)
+        {
+            var fx = Instantiate(breakEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(fx, effectLifeSeconds);
+        }
+
+        if (breakSound != null)
+            AudioSource.PlayClipAtPoint(breakSound, transform.position);
+
         Destroy(gameObject);
     }
 }

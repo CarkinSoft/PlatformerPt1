@@ -1,26 +1,29 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CameraScroller : MonoBehaviour
 {
-    [SerializeField] private float speed = 8f;
+    [SerializeField] private Transform target;
+    [SerializeField] private float smoothTime = 0.12f;
+
+    [Header("Clamp X")]
+    [SerializeField] private bool clampX = false;
     [SerializeField] private float minX = 0f;
     [SerializeField] private float maxX = 200f;
 
-    private void Update()
+    private float _xVelocity;
+
+    private void LateUpdate()
     {
-        float dx = 0f;
+        if (target == null) return;
 
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.leftArrowKey.isPressed) dx -= 1f;
-            if (Keyboard.current.rightArrowKey.isPressed) dx += 1f;
-        }
+        Vector3 pos = transform.position;
 
-        if (dx == 0f) return;
+        float desiredX = target.position.x;
+        float newX = Mathf.SmoothDamp(pos.x, desiredX, ref _xVelocity, smoothTime);
 
-        var pos = transform.position;
-        pos.x = Mathf.Clamp(pos.x + dx * speed * Time.deltaTime, minX, maxX);
-        transform.position = pos;
+        if (clampX)
+            newX = Mathf.Clamp(newX, minX, maxX);
+
+        transform.position = new Vector3(newX, pos.y, pos.z);
     }
 }

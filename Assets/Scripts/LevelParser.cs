@@ -39,6 +39,9 @@ public class LevelParser : MonoBehaviour
     public GameObject brickPrefab;
     public GameObject questionBoxPrefab;
     public GameObject stonePrefab;
+    public GameObject waterPrefab;
+    public GameObject goalPrefab;
+    public GameObject coinPrefab;
 
     void Start()
     {
@@ -69,35 +72,42 @@ public class LevelParser : MonoBehaviour
             for (var columnIndex = 0; columnIndex < rowChars.Length; columnIndex++)
             {
                 var currentChar = rowChars[columnIndex];
+                Vector3 position = new Vector3(columnIndex + 0.5f, row + 0.5f, 0f);
 
-                // Todo - Instantiate a new GameObject that matches the type specified by the character
-                // Todo - Position the new GameObject at the appropriate location by using row and column
-                // Todo - Parent the new GameObject under levelRoot
-                    
-                if(currentChar == 'x')
+                if (currentChar == 'x')
                 {
-                    Vector3 position = new Vector3(columnIndex + 0.5f, row + 0.5f, 0);
-                    Transform rockInstance = Instantiate(rockPrefab,levelRoot).transform;
+                    Transform rockInstance = Instantiate(rockPrefab, levelRoot).transform;
                     rockInstance.position = position;
-
                 }
-                else if(currentChar == 'b')
+                else if (currentChar == 'b')
                 {
-                    Vector3 position = new Vector3(columnIndex + 0.5f, row + 0.5f, 0);
-                    Transform brickInstance = Instantiate(brickPrefab,levelRoot).transform;
+                    Transform brickInstance = Instantiate(brickPrefab, levelRoot).transform;
                     brickInstance.position = position;
                 }
-                else if(currentChar == '?')
+                else if (currentChar == '?')
                 {
-                    Vector3 position = new Vector3(columnIndex + 0.5f, row + 0.5f, 0);
-                    Transform questionBoxInstance = Instantiate(questionBoxPrefab,levelRoot).transform;
+                    Transform questionBoxInstance = Instantiate(questionBoxPrefab, levelRoot).transform;
                     questionBoxInstance.position = position;
                 }
-                else if(currentChar == 's')
+                else if (currentChar == 's')
                 {
-                    Vector3 position = new Vector3(columnIndex + 0.5f, row + 0.5f, 0);
-                    Transform stoneInstance = Instantiate(stonePrefab,levelRoot).transform;
+                    Transform stoneInstance = Instantiate(stonePrefab, levelRoot).transform;
                     stoneInstance.position = position;
+                }
+                else if (currentChar == 'w')
+                {
+                    Transform waterInstance = Instantiate(waterPrefab, levelRoot).transform;
+                    waterInstance.position = position;
+                }
+                else if (currentChar == 'g')
+                {
+                    Transform goalInstance = Instantiate(goalPrefab, levelRoot).transform;
+                    goalInstance.position = position;
+                }
+                else if (currentChar == 'c')
+                {
+                    Transform coinInstance = Instantiate(coinPrefab, levelRoot).transform;
+                    coinInstance.position = position;
                 }
             }
 
